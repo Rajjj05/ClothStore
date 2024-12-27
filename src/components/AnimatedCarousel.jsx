@@ -8,13 +8,6 @@ const AnimatedCarousel = ({ products }) => {
   const [direction, setDirection] = useState(null);
   const containerRef = useRef(null);
 
-  const handlers = useSwipeable({
-    onSwipedLeft: () => paginate(1),
-    onSwipedRight: () => paginate(-1),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
-
   const slideVariants = {
     enter: (direction) => ({
       x: direction > 0 ? 1000 : -1000,
@@ -26,7 +19,7 @@ const AnimatedCarousel = ({ products }) => {
       zIndex: 1,
       x: 0,
       opacity: 1,
-      scale: 1.2,
+      scale: 1.5,
       filter: "blur(0px)",
     },
     exit: (direction) => ({
@@ -37,6 +30,13 @@ const AnimatedCarousel = ({ products }) => {
       filter: "blur(4px)",
     }),
   };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => paginate(1),
+    onSwipedRight: () => paginate(-1),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
 
   const paginate = (newDirection) => {
     setDirection(newDirection);
@@ -50,9 +50,9 @@ const AnimatedCarousel = ({ products }) => {
 
   return (
     <div
-      {...handlers}
       className="relative h-[600px] flex items-center justify-center overflow-hidden"
       ref={containerRef}
+      {...swipeHandlers}
     >
       <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
         <div
@@ -86,7 +86,7 @@ const AnimatedCarousel = ({ products }) => {
             x: { type: "spring", stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 },
           }}
-          className="absolute top-1/2 left-1/2 transform -translate-x-[60%] -translate-y-[55%]"
+          className="flex justify-center items-center"
         >
           <div className="w-64 h-80 relative rounded-xl overflow-hidden shadow-2xl transition-transform duration-300 hover:scale-125">
             <img

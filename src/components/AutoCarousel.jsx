@@ -13,7 +13,7 @@ const AutoCarousel = ({ products }) => {
         resetProgress: false,
         perPage: 3,
         interval: 3000,
-        height: "300px", // Adjusted height for smaller images
+        height: "300px",
         breakpoints: {
           640: {
             perPage: 1,
